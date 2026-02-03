@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ruben's Construction & Repair - Marine Construction Services in Tampa Bay</title>
+    <meta name="description" content="Expert marine construction and repair services in Tampa, Apollo Beach, Gibsonton, Ruskin, and surrounding areas. Specializing in dock repair, boat lifts, seawall repairs, deck construction, and waterfront infrastructure.">
+    <meta name="keywords" content="marine construction, dock repair, boat lifts, seawall repair, deck construction, waterfront repairs, Tampa Bay, Apollo Beach, Gibsonton, Ruskin">
+    <meta name="author" content="Ruben's Construction & Repair">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rubensconstruction.com/">
+    <meta property="og:title" content="Ruben's Construction & Repair - Marine Construction Services">
+    <meta property="og:description" content="Expert marine construction and repair services in Tampa Bay area. Dock repair, boat lifts, seawall repairs, and more.">
+    <meta property="og:image" content="https://rubensconstruction.com/assets/img/work/45.jpeg">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://rubensconstruction.com/">
+    <meta property="twitter:title" content="Ruben's Construction & Repair - Marine Construction Services">
+    <meta property="twitter:description" content="Expert marine construction and repair services in Tampa Bay area. Dock repair, boat lifts, seawall repairs, and more.">
+    <meta property="twitter:image" content="https://rubensconstruction.com/assets/img/work/45.jpeg">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Ruben's Construction & Repair",
+      "description": "Expert marine construction and repair services in Tampa Bay area.",
+      "url": "https://rubensconstruction.com/",
+      "telephone": "+1-813-454-2000",
+      "email": "rubenbalderas@yahoo.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "PO BOX 41",
+        "addressLocality": "Ruskin",
+        "addressRegion": "FL",
+        "postalCode": "33575",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 27.7206,
+        "longitude": -82.4332
+      },
+      "areaServed": [
+        "Tampa",
+        "Apollo Beach",
+        "Gibsonton",
+        "Ruskin",
+        "Riverview",
+        "South Shore",
+        "Bradenton",
+        "Lake Mango",
+        "Lake Thonotosassa"
+      ],
+      "serviceType": [
+        "Dock Repair",
+        "Boat Lifts",
+        "Seawall Repair",
+        "Deck Construction",
+        "Marine Construction"
+      ]
+    }
+    </script>
+    <!-- Vendor CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+    <!-- Vendor JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+    <script>
+      // Initialize AOS and simple Swiper init for elements with class init-swiper
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.AOS) AOS.init();
+        // auto-init basic Swipers using config from data-config attribute or child element
+        document.querySelectorAll('.init-swiper').forEach(function(sw) {
+          let cfg = {};
+          try {
+            // 1) data-config attribute on the container
+            const dataCfg = sw.getAttribute('data-config') || sw.dataset.config;
+            if (dataCfg) cfg = JSON.parse(dataCfg);
+            else {
+              // 2) child element .swiper-config with textContent or data-config
+              const cfgEl = sw.querySelector('.swiper-config');
+              if (cfgEl) {
+                const childCfg = cfgEl.getAttribute('data-config') || cfgEl.dataset.config || cfgEl.textContent;
+                if (childCfg) cfg = JSON.parse(childCfg);
+              }
+            }
+            new Swiper(sw, cfg);
+          } catch (e) { console.warn('Swiper init failed', e); }
+        });
+        if (window.GLightbox) GLightbox();
+      });
+    </script>
+  </body>
+</html>
