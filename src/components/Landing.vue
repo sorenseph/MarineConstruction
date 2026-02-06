@@ -200,7 +200,9 @@ onMounted(() => {
 
     <main class="main">
       <section id="hero" class="hero section dark-background">
-        <img src="/assets/img/work/45.jpeg" alt="" data-aos="fade-in">
+        <video autoplay muted loop class="video-bg">
+          <source src="/src/assets/video/20260206_1136.mp4" type="video/mp4">
+        </video>
         <div class="container position-relative">
           <div class="welcome position-relative" data-aos="fade-down" data-aos-delay="100">
             <h2>Services We Offer</h2>
@@ -292,7 +294,7 @@ onMounted(() => {
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
               <div class="why-box">
                 <h4>20+ Years of Experience</h4>
-                <p>Over three decades of expertise in waterfront construction and repairs across Tampa Bay.</p>
+                <p>Over two decades of expertise in waterfront construction and repairs across Tampa Bay.</p>
               </div>
             </div>
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
@@ -429,6 +431,9 @@ onMounted(() => {
       </section>
 
       <section id="cta" class="cta section dark-background">
+        <video autoplay muted loop class="video-bg">
+          <source src="/src/assets/video/20260206_1139.mp4" type="video/mp4">
+        </video>
         <div class="container" data-aos="fade-up">
           <div class="row gy-4">
             <div class="col-lg-8">
@@ -568,4 +573,9 @@ onMounted(() => {
 .service-card .card-text { color: var(--default-color); }
 .btn-accent { background-color: var(--nav-hover-color); border-color: var(--nav-hover-color); color: white; }
 .btn-accent:hover { background-color: var(--nav-color); border-color: var(--nav-color); }
+.video-bg { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:1; opacity:0.7 }
+#cta { position:relative; overflow:hidden }
+#cta .container { position:relative; z-index:2 }
+.hero { position:relative; overflow:hidden }
+.hero .container { position:relative; z-index:2 }
 </style>
