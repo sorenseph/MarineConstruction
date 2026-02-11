@@ -172,7 +172,7 @@ onMounted(() => {
         <div class="container d-flex justify-content-center justify-content-md-between">
           <div class="contact-info d-flex align-items-center">
             <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:rubenbalderas@yahoo.com">rubenbalderas@yahoo.com</a></i>
-            <i class="bi bi-phone d-flex align-items-center ms-4"><a href="tel:8134542000">8134 5420 00</a></i>
+            <i class="bi bi-phone d-flex align-items-center ms-4"><a href="tel:8135456976"> 813 545 6976</a></i>
           </div>
           <div class="social-links d-none d-md-flex align-items-center">
             <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
@@ -442,7 +442,7 @@ onMounted(() => {
             </div>
             <div class="col-lg-4 text-center text-lg-end">
               <a href="#contact" class="btn btn-accent">Get Free Quote</a>
-              <p class="mt-2"><a href="tel:8134542000" class="text-light">Call Now: 813-454-2000</a></p>
+              <p class="mt-2"><a href="tel:8135456976" class="text-light">Call Now: 813-454-2000</a></p>
             </div>
           </div>
         </div>
@@ -464,13 +464,13 @@ onMounted(() => {
             <div class="col-md-6">
               <div class="info-item d-flex align-items-center">
                 <i class="icon bi bi-telephone flex-shrink-0"></i>
-                <div><h3>Call Us</h3><p>8134 5420 00</p></div>
+                <div><h3>Call Us</h3><p> 813 545 6976</p></div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="info-item d-flex align-items-center">
                 <i class="icon bi bi-envelope flex-shrink-0"></i>
-                <div><h3>Email Us</h3><p>rubenbalderas@yahoo.com</p></div>
+                <div><h3>Email Us</h3><p>rubenbalderas@yahoo.coms</p></div>
               </div>
             </div>
             <div class="col-md-6">
@@ -508,7 +508,7 @@ onMounted(() => {
             <div class="footer-contact pt-3">
               <p>PO BOX 41</p>
               <p>Ruskin, FL 33575</p>
-              <p class="mt-3"><strong>Phone:</strong> <span>8134 5420 00</span></p>
+              <p class="mt-3"><strong>Phone:</strong> <span> 813 545 6976</span></p>
               <p><strong>Email:</strong> <span>rubenbalderas@yahoo.com</span></p>
             </div>
             <div class="social-links d-flex mt-4"><a href=""><i class="bi bi-facebook"></i></a><a href=""><i class="bi bi-instagram"></i></a><a href=""><i class="bi bi-linkedin"></i></a></div>
