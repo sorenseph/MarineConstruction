@@ -854,6 +854,39 @@ section,
 }
 
 /*--------------------------------------------------------------
+# Blog / Latest News Section (Landing)
+--------------------------------------------------------------*/
+#blog.blog-slider,
+.blog-slider.section {
+  padding: 60px 0;
+}
+#blog .blog-card {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.3s, transform 0.2s;
+}
+#blog .blog-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+#blog .blog-card .card-title {
+  color: var(--heading-color);
+}
+#blog .blog-card:hover .card-title {
+  color: var(--accent-color);
+}
+#blog .btn-outline-primary {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+#blog .btn-outline-primary:hover {
+  background: var(--accent-color);
+  color: var(--contrast-color);
+}
+
+/*--------------------------------------------------------------
 # Hero Section
 --------------------------------------------------------------*/
 .hero {

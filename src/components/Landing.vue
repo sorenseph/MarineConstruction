@@ -1,7 +1,8 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import Swiper from 'swiper/bundle'
 import GLightbox from 'glightbox'
+import { supabase } from '../lib/supabase'
 
 const faqs = ref([
   { q: 'How long does a typical dock construction project take?', a: 'Dock construction can vary, but most projects are completed within 4-8 weeks, depending on size and complexity.', open: true },
@@ -45,78 +46,59 @@ const services = ref([
   { img: '/assets/img/work/27.jpeg', title: 'Deck Construction', desc: 'Ruben\'s Construction & Repair will present a free estimate on all decks, big or small.', gallery: 'Deck Construction', filter: 'filter-branding', hasDetails: false }
 ])
 
-function submit(e) {
+const blogPosts = ref([])
+
+function formatBlogDate(d) {
+  return d ? new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : ''
+}
+
+async function submit(e) {
   e.preventDefault()
   if (!form.value.name.trim()) {
-    showToast('Por favor ingresa tu nombre.')
+    showToast('Please enter your name.')
     return
   }
   if (!form.value.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.value.email)) {
-    showToast('Por favor ingresa un correo electrónico válido.')
+    showToast('Please enter a valid email.')
     return
   }
   if (!form.value.message.trim()) {
-    showToast('Por favor ingresa un mensaje.')
+    showToast('Please enter a message.')
     return
   }
   sending.value = true
-  const formData = new FormData()
-  formData.append('name', form.value.name)
-  formData.append('email', form.value.email)
-  formData.append('_replyto', form.value.email)
-  formData.append('message', form.value.message)
-  fetch('https://formspree.io/f/mqelnzrj', {
-    method: 'POST',
-    body: formData,
-    headers: {
-      'Accept': 'application/json'
-    }
+  const { error } = await supabase.from('contact_submissions').insert({
+    name: form.value.name.trim(),
+    email: form.value.email.trim(),
+    message: form.value.message.trim()
   })
-  .then(response => {
-    if (response.ok) {
-      sending.value = false
-      showToast('Mensaje enviado exitosamente.')
-      form.value = { name: '', email: '', message: '' }
-    } else {
-      throw new Error('Error en el envío')
-    }
-  })
-  .catch((error) => {
-    sending.value = false
-    showToast('Error al enviar el mensaje: ' + error.message)
-  })
+  sending.value = false
+  if (error) {
+    showToast('Error sending: ' + error.message)
+    return
+  }
+  showToast('Message sent successfully. Thank you!')
+  form.value = { name: '', email: '', message: '' }
 }
 
-function submitNewsletter(e) {
+async function submitNewsletter(e) {
   e.preventDefault()
   if (!newsletter.value.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newsletter.value.email)) {
-    showToast('Por favor ingresa un correo electrónico válido.')
+    showToast('Please enter a valid email.')
     return
   }
   sendingNewsletter.value = true
-  const formData = new FormData()
-  formData.append('email', newsletter.value.email)
-  formData.append('_replyto', newsletter.value.email)
-  fetch('https://formspree.io/f/mqelnzrj', {
-    method: 'POST',
-    body: formData,
-    headers: {
-      'Accept': 'application/json'
-    }
+  const { error } = await supabase.from('newsletter_subscribers').insert({
+    email: newsletter.value.email.trim()
   })
-  .then(response => {
-    if (response.ok) {
-      sendingNewsletter.value = false
-      showToast('Suscripción exitosa.')
-      newsletter.value = { email: '' }
-    } else {
-      throw new Error('Error en la suscripción')
-    }
-  })
-  .catch((error) => {
-    sendingNewsletter.value = false
-    showToast('Error al suscribir: ' + error.message)
-  })
+  sendingNewsletter.value = false
+  if (error) {
+    if (error.code === '23505') showToast('This email is already subscribed.')
+    else showToast('Error: ' + error.message)
+    return
+  }
+  showToast('Successfully subscribed. Thank you!')
+  newsletter.value = { email: '' }
 }
 
 function showToast(message) {
@@ -140,26 +122,41 @@ function resetChat() {
   chatMessages.value = []
 }
 
-onMounted(() => {
-  // Initialize Swiper
+onMounted(async () => {
+  const { data } = await supabase.from('blog_posts').select('*').eq('published', true).order('created_at', { ascending: false }).limit(3)
+  blogPosts.value = data || []
+
+  await nextTick()
+
   document.querySelectorAll('.init-swiper').forEach(el => {
-    const config = JSON.parse(el.getAttribute('data-config'))
-    new Swiper(el, config)
+    try {
+      const config = JSON.parse(el.getAttribute('data-config') || '{}')
+      new Swiper(el, config)
+    } catch (e) { console.warn('Swiper init', e) }
   })
 
-  // Initialize GLightbox
   GLightbox()
 
   // Hide preloader immediately
   const preloader = document.getElementById('preloader')
   if (preloader) preloader.style.display = 'none'
 
-  // Mobile nav toggle
+  // Mobile nav toggle - usa mobile-nav-active en body (requerido por CSS)
   const mobileNavToggle = document.querySelector('.mobile-nav-toggle')
-  const navmenu = document.getElementById('navmenu')
-  if (mobileNavToggle && navmenu) {
+  if (mobileNavToggle) {
     mobileNavToggle.addEventListener('click', () => {
-      navmenu.classList.toggle('active')
+      document.body.classList.toggle('mobile-nav-active')
+      mobileNavToggle.classList.toggle('bi-list')
+      mobileNavToggle.classList.toggle('bi-x')
+    })
+    document.querySelectorAll('#navmenu a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (document.body.classList.contains('mobile-nav-active')) {
+          document.body.classList.remove('mobile-nav-active')
+          mobileNavToggle.classList.add('bi-list')
+          mobileNavToggle.classList.remove('bi-x')
+        }
+      })
     })
   }
 })
@@ -175,22 +172,23 @@ onMounted(() => {
             <i class="bi bi-phone d-flex align-items-center ms-4"><a href="tel:8135456976"> 813 545 6976</a></i>
           </div>
           <div class="social-links d-none d-md-flex align-items-center">
-            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            <a href="https://www.facebook.com/people/Rubens-Construction-Repair/61587814865674/" target="_blank" rel="noopener" class="facebook"><i class="bi bi-facebook"></i></a>
           </div>
         </div>
       </div>
       <div class="branding d-flex align-items-cente">
         <div class="container position-relative d-flex align-items-center justify-content-between">
-          <a href="#" class="logo d-flex align-items-center">
+          <router-link to="/" class="logo d-flex align-items-center">
             <img src="/assets/img/rubens.svg" alt="logo marine">
-          </a>
+          </router-link>
           <nav id="navmenu" class="navmenu">
             <ul>
               <li><a href="#hero" class="active">Home</a></li>
               <li><a href="#about">About</a></li>
               <li><a href="#contact">Contact</a></li>
+              <li><router-link to="/blog-public">Blog</router-link></li>
+              <li><router-link to="/careers">Careers</router-link></li>
+              <li><router-link to="/login">Login</router-link></li>
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
           </nav>
@@ -349,6 +347,32 @@ onMounted(() => {
         </div>
       </section>
 
+      <section id="blog" class="blog-slider section light-background" v-if="blogPosts.length > 0">
+        <div class="container section-title" data-aos="fade-up">
+          <h2>Latest News</h2>
+          <p>Read our recent updates and articles</p>
+        </div>
+        <div class="container" data-aos="fade-up" data-aos-delay="200">
+          <div class="row g-4">
+            <div v-for="post in blogPosts" :key="post.id" class="col-md-6 col-lg-4">
+              <router-link :to="'/blog-public/' + (post.slug || post.id)" class="card h-100 blog-card text-decoration-none">
+                <img v-if="post.cover_image" :src="post.cover_image" class="card-img-top" alt="" style="height:200px;object-fit:cover">
+                <div v-else class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height:200px"><i class="bi bi-newspaper text-white" style="font-size:48px"></i></div>
+                <div class="card-body">
+                  <p class="text-muted small mb-1">{{ formatBlogDate(post.created_at) }}</p>
+                  <h5 class="card-title text-dark">{{ post.title }}</h5>
+                  <p class="card-text text-muted">{{ post.excerpt || (post.content?.replace(/<[^>]+>/g,'').slice(0,120) + '...') }}</p>
+                  <span class="text-primary small">Read more →</span>
+                </div>
+              </router-link>
+            </div>
+          </div>
+          <div class="text-center mt-4">
+            <router-link to="/blog-public" class="btn btn-outline-primary">View all blog posts</router-link>
+          </div>
+        </div>
+      </section>
+
       <section id="portfolio" class="portfolio section">
         <div class="container section-title" data-aos="fade-up">
           <h2>Services</h2>
@@ -470,13 +494,13 @@ onMounted(() => {
             <div class="col-md-6">
               <div class="info-item d-flex align-items-center">
                 <i class="icon bi bi-envelope flex-shrink-0"></i>
-                <div><h3>Email Us</h3><p>rubenbalderas@yahoo.coms</p></div>
+                <div><h3>Email Us</h3><p>rubenbalderas@yahoo.com</p></div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="info-item d-flex align-items-center">
                 <i class="icon bi bi-share flex-shrink-0"></i>
-                <div><h3>Social Profiles</h3><div class="social-links"><a href="#"><i class="bi bi-facebook"></i></a><a href="#"><i class="bi bi-instagram"></i></a><a href="#"><i class="bi bi-linkedin"></i></a></div></div>
+                <div><h3>Social Profiles</h3><div class="social-links"><a href="https://www.facebook.com/people/Rubens-Construction-Repair/61587814865674/" target="_blank" rel="noopener"><i class="bi bi-facebook"></i></a></div></div>
               </div>
             </div>
           </div>
@@ -511,9 +535,9 @@ onMounted(() => {
               <p class="mt-3"><strong>Phone:</strong> <span> 813 545 6976</span></p>
               <p><strong>Email:</strong> <span>rubenbalderas@yahoo.com</span></p>
             </div>
-            <div class="social-links d-flex mt-4"><a href=""><i class="bi bi-facebook"></i></a><a href=""><i class="bi bi-instagram"></i></a><a href=""><i class="bi bi-linkedin"></i></a></div>
+            <div class="social-links d-flex mt-4"><a href="https://www.facebook.com/people/Rubens-Construction-Repair/61587814865674/" target="_blank" rel="noopener"><i class="bi bi-facebook"></i></a></div>
           </div>
-          <div class="col-lg-2 col-md-3 footer-links"><h4>Useful Links</h4><ul><li><a href="#">Home</a></li><li><a href="#">About us</a></li></ul></div>
+          <div class="col-lg-2 col-md-3 footer-links"><h4>Useful Links</h4><ul><li><router-link to="/">Home</router-link></li><li><a href="/#about">About</a></li><li><router-link to="/blog-public">Blog</router-link></li><li><router-link to="/careers">Careers</router-link></li><li><router-link to="/login">Login</router-link></li></ul></div>
           <div class="col-lg-4 col-md-12 footer-newsletter"><h4>Our Newsletter</h4><p>Subscribe to our newsletter and receive the latest news about our products and services!</p><form @submit="submitNewsletter" class="php-email-form"><div class="newsletter-form"><input type="email" v-model="newsletter.email" name="email"><input type="submit" :disabled="sendingNewsletter" value="Subscribe"></div><div v-if="sendingNewsletter" class="loading">Loading</div><div class="error-message"></div><div class="sent-message">Your subscription request has been sent. Thank you!</div></form></div>
         </div>
       </div>

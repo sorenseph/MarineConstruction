@@ -7,8 +7,10 @@ import 'glightbox/dist/css/glightbox.css'
 import 'swiper/css/bundle'
 import AOS from 'aos'
 import App from './App.vue'
+import router from './router'
 
 const app = createApp(App)
+app.use(router)
 app.mount('#app')
 
 AOS.init()
