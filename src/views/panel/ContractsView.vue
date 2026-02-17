@@ -64,6 +64,16 @@ async function downloadContractPDF(c) {
     alert('Error generating PDF: ' + (err.message || 'Unknown error'))
   }
 }
+
+async function deleteContract(c) {
+  if (!confirm(`Delete contract for "${c.client_name}"? This cannot be undone.`)) return
+  const { error } = await supabase.from('contracts').delete().eq('id', c.id)
+  if (error) {
+    alert('Error deleting: ' + error.message)
+    return
+  }
+  contracts.value = contracts.value.filter(x => x.id !== c.id)
+}
 </script>
 
 <template>
@@ -108,6 +118,7 @@ async function downloadContractPDF(c) {
             <td>
               <button class="btn btn-sm btn-outline-primary" @click="downloadContractPDF(c)">PDF</button>
               <router-link :to="`/panel/contracts/${c.id}`" class="btn btn-sm btn-outline-secondary">Edit</router-link>
+              <button class="btn btn-sm btn-outline-danger" @click="deleteContract(c)" title="Delete">Delete</button>
             </td>
           </tr>
         </tbody>
