@@ -6,12 +6,14 @@ const STORAGE_KEY = 'marine_user'
 // Emails para Supabase Auth (se crean automáticamente en el primer login)
 const USER_EMAILS = {
   rubenconstruction: 'rubenconstruction@rubensconstruction.com',
-  israelcardenas: 'israelcardenas@rubensconstruction.com'
+  israelcardenas: 'israelcardenas@rubensconstruction.com',
+  jadeadmin: 'jadeadmin@rubensconstruction.com'
 }
 
 const DISPLAY_NAMES = {
   rubenconstruction: 'Ruben Construction',
-  israelcardenas: 'Israel Cardenas'
+  israelcardenas: 'Israel Cardenas',
+  jadeadmin: 'Jade Admin'
 }
 
 function getStoredUser() {
@@ -32,12 +34,9 @@ export function useAuth() {
     const raw = String(usernameInput ?? '').trim().replace(/\s+/g, ' ')
     const input = raw.toLowerCase().normalize('NFKC')
     const userPart = input.includes('@') ? input.split('@')[0] : input
-    let email = null
-    if (userPart === 'rubenconstruction') email = USER_EMAILS.rubenconstruction
-    else if (userPart === 'israelcardenas') email = USER_EMAILS.israelcardenas
-    else if (input === USER_EMAILS.rubenconstruction || input === USER_EMAILS.israelcardenas) email = input
+    let email = USER_EMAILS[userPart] ?? (Object.values(USER_EMAILS).includes(input) ? input : null)
     if (!email) {
-      return { success: false, error: 'Usuario no válido. Usa: rubenconstruction o israelcardenas' }
+      return { success: false, error: `Usuario no válido. Usuarios: ${Object.keys(USER_EMAILS).join(', ')}` }
     }
     let data, error
     const signIn = await supabase.auth.signInWithPassword({ email, password })

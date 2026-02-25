@@ -466,7 +466,7 @@ onMounted(async () => {
             </div>
             <div class="col-lg-4 text-center text-lg-end">
               <a href="#contact" class="btn btn-accent">Get Free Quote</a>
-              <p class="mt-2"><a href="tel:8135456976" class="text-light">Call Now: 813-454-2000</a></p>
+              <p class="mt-2"><a href="tel:8135456976" class="text-light">Call Now: 813-545-6976</a></p>
             </div>
           </div>
         </div>

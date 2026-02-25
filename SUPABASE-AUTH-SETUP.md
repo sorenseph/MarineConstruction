@@ -10,8 +10,9 @@ Los usuarios se **crean automáticamente** en el primer login. No necesitas crea
 
 | Usuario | Contraseña |
 |---------|------------|
-| rubenconstruction | superusuario1739 |
+| rubenconstruction | admin6976 |
 | israelcardenas | webie3899 |
+| jadeadmin | cadena19 |
 
 En el primer inicio de sesión, si el usuario no existe, se crea automáticamente.
 
@@ -19,3 +20,4 @@ En el primer inicio de sesión, si el usuario no existe, se crea automáticament
 
 - rubenconstruction@rubensconstruction.com
 - israelcardenas@rubensconstruction.com
+- jadeadmin@rubensconstruction.com
