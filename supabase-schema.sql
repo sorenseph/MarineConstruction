@@ -138,3 +138,22 @@ CREATE TABLE IF NOT EXISTS job_applications (
 
 ALTER TABLE job_applications ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Allow all for applications" ON job_applications FOR ALL USING (true) WITH CHECK (true);
+
+-- Tabla de cotizaciones
+CREATE TABLE IF NOT EXISTS quotes (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  quote_id TEXT,
+  quote_date DATE,
+  valid_until DATE,
+  client_name TEXT NOT NULL,
+  company_name TEXT,
+  client_address TEXT,
+  prepared_by TEXT,
+  items JSONB DEFAULT '[]',
+  total_amount DECIMAL(12,2),
+  disclaimer TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE quotes ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow all for quotes" ON quotes FOR ALL USING (true) WITH CHECK (true);

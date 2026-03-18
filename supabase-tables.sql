@@ -114,3 +114,22 @@ DROP POLICY IF EXISTS "Allow public insert newsletter" ON newsletter_subscribers
 DROP POLICY IF EXISTS "Allow authenticated read newsletter" ON newsletter_subscribers;
 CREATE POLICY "Allow public insert newsletter" ON newsletter_subscribers FOR INSERT WITH CHECK (true);
 CREATE POLICY "Allow authenticated read newsletter" ON newsletter_subscribers FOR SELECT USING (auth.role() = 'authenticated');
+
+-- Quotes (cotizaciones)
+CREATE TABLE IF NOT EXISTS quotes (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  quote_id TEXT,
+  quote_date DATE,
+  valid_until DATE,
+  client_name TEXT NOT NULL,
+  company_name TEXT,
+  client_address TEXT,
+  prepared_by TEXT,
+  items JSONB DEFAULT '[]',
+  total_amount DECIMAL(12,2),
+  disclaimer TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE quotes ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Allow all for quotes" ON quotes;
+CREATE POLICY "Allow all for quotes" ON quotes FOR ALL USING (true) WITH CHECK (true);

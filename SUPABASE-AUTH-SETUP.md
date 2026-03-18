@@ -8,11 +8,16 @@ Los usuarios se **crean automáticamente** en el primer login. No necesitas crea
 
 ## Credenciales
 
-| Usuario | Contraseña |
-|---------|------------|
-| rubenconstruction | admin6976 |
-| israelcardenas | webie3899 |
-| jadeadmin | cadena19 |
+| Usuario | Contraseña | Notas |
+|---------|------------|-------|
+| **rubenconstruction** | **admin6976** | Usuario principal |
+| israelcardenas | webie3899 | |
+| jadeadmin | cadena19 | |
+
+**Nota importante:** El login usa el **nombre de usuario** (ej: `rubenconstruction`), NO el email. Si no puedes iniciar sesión:
+- Verifica que escribas `rubenconstruction` en el campo de usuario
+- Contraseña: `admin6976`
+- Si el error persiste, revisa en Supabase Dashboard → Authentication → Users si el usuario existe y considera restablecer la contraseña desde ahí.
 
 En el primer inicio de sesión, si el usuario no existe, se crea automáticamente.
 

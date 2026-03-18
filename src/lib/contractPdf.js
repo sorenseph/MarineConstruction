@@ -247,6 +247,12 @@ export async function generateContractPdf(options) {
   y += 6
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(9)
+  const advanceNotice = 'ADVANCE PAYMENT: A non-refundable advance payment of thirty percent (30%) of the total contract amount is required upon signing this Agreement. Work shall not commence until the advance payment has been received in full.'
+  const advanceLines = doc.splitTextToSize(advanceNotice, CONTENT_WIDTH)
+  doc.setTextColor(...ACCENT)
+  doc.text(advanceLines, MARGIN, y)
+  y += advanceLines.length * 5 + 6
+  doc.setTextColor(...DARK_GRAY)
   const payTerms = form.paymentTerms || 'Initial Deposit: As agreed | Progress Payments: As agreed upon milestones | Final Payment: Upon substantial completion. Late payments may be subject to interest at the maximum rate permitted by law.'
   const payLines = doc.splitTextToSize(payTerms, CONTENT_WIDTH)
   doc.text(payLines, MARGIN, y)

@@ -31,7 +31,7 @@ const form = ref({
   contractDate: today,
   language: 'en',
   projectDescription: '',
-  paymentTerms: 'Initial Deposit: As agreed | Progress Payments: As agreed upon milestones | Final Payment: Upon substantial completion.',
+  paymentTerms: 'Initial Deposit: 30% required upon signing | Progress Payments: As agreed upon milestones | Final Payment: Upon substantial completion.',
   items: [{ description: '', price: 0 }],
   contractorSignatureName: '',
   clientSignatureName: '',
